@@ -1,0 +1,23 @@
+flowchart TB
+    U["终端 / 非交互消费者"] --> Q["query() 异步生成器"]
+    Q --> C["Snip → Microcompact → Autocompact"]
+    C --> M["模型请求与响应流"]
+    M --> T["工具块 / StreamingToolExecutor"]
+    T --> P["统一执行管道：校验 / Hooks / 权限"]
+    P --> E["Tool.call / 执行并发安全约束"]
+    E --> R["结果缓冲 / 按接收顺序交付"]
+    R --> Q
+    M --> S["无工具时检查 Stop Hooks"]
+    S -->|继续| Q
+    S -->|完成| F["返回 / 等待输入"]
+    E -.-> A["AgentTool：子代理上下文"]
+    A -.-> Q
+    Q -.-> H["消息与 Transcript 记录"]
+    classDef input fill:#eff6ff,stroke:#2563eb,color:#172554
+    classDef core fill:#f0fdf4,stroke:#16a34a,color:#14532d
+    classDef policy fill:#fff7ed,stroke:#ea580c,color:#7c2d12
+    classDef state fill:#faf5ff,stroke:#9333ea,color:#581c87
+    class U input
+    class Q,C,M,T,E,R,S,F,A core
+    class P policy
+    class H state

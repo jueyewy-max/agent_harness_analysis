@@ -1,0 +1,18 @@
+flowchart TB
+    U["用户输入 / 项目指令"] --> C["上下文组装与预算管理"]
+    C --> M["模型请求与流式响应"]
+    M --> D{"需要调用工具？"}
+    D -->|是| P["工具校验与权限决策"]
+    P --> A["必要的审批 / 执行隔离"]
+    A --> E["执行工具并收集结果"]
+    E --> H["会话记录 / 历史更新"]
+    H --> C
+    D -->|否| F["检查完成条件 / 等待输入"]
+    classDef input fill:#eff6ff,stroke:#2563eb,color:#172554
+    classDef core fill:#f0fdf4,stroke:#16a34a,color:#14532d
+    classDef policy fill:#fff7ed,stroke:#ea580c,color:#7c2d12
+    classDef state fill:#faf5ff,stroke:#9333ea,color:#581c87
+    class U input
+    class C,M,D,E,F core
+    class P,A policy
+    class H state
